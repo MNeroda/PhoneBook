@@ -1,0 +1,38 @@
+.item {
+    font-size: 1.1rem;
+}
+
+.item button {
+    width: 35px;
+    height: 35px;
+    margin: 3px;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+.item button:focus {
+    box-shadow: none;
+    outline: none;
+}
+.item .btn-star {
+    color: #FFD700;
+}
+.item .btn-trash {
+    color: red;
+}
+
+.item-label {
+    display: block;
+    line-height: 35px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.5s all;
+}
+
+.item.favorite .item-label {
+    color: #FFD700;
+}
+
+.item.favorite .btn-star {
+    color: #aeaeae;
+}

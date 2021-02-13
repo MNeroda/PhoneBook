@@ -1,0 +1,15 @@
+.app {
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.header {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.header * {
+    margin-left: 30px;
+}

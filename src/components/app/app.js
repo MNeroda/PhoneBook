@@ -55,21 +55,37 @@ export default class App extends Component{
         return (
             <div className="app">
                 <div className="header">
-                    <h1>Phone Book</h1>
-                    <div>
-                        <SearchPanel sendData={this.getDataFromSearch}/>
+                    <div className="header-inner">
+                        <div className="logo-label">
+                            PHONE BOOK
+                        </div>
+                        <div>
+                            <SearchPanel sendData={this.getDataFromSearch}/>
+                        </div>
+
                     </div>
                 </div>
-                <div>
+
+
+                <div className="posts">
                     <AddPanel sendData={this.getDataFromAdd}/>
-                    <FilterButton
-                        allOrFavorite={this.state.toggleFavorite}
-                        blockOlder={this.state.sortOlder}
-                        onToggleFavorite={this.onToggleFavorite}
-                        onToggleOlder={this.onToggleOlder}
-                        onToggleNewest={this.onToggleNewest}/>
-                </div>
-                <div>
+
+
+
+                    <div className="filter-buttons">
+                        <div>
+                            Phone numbers
+                        </div>
+                        <div>
+                            <FilterButton
+                                allOrFavorite={this.state.toggleFavorite}
+                                blockOlder={this.state.sortOlder}
+                                onToggleFavorite={this.onToggleFavorite}
+                                onToggleOlder={this.onToggleOlder}
+                                onToggleNewest={this.onToggleNewest}/>
+                        </div>
+                    </div>
+
                     <ItemsList
                         newItem={this.state.newItem}
                         searchText={this.state.searchText}

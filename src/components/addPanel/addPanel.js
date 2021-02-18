@@ -8,7 +8,9 @@ export default class AddPanel extends Component{
         this.state = {
             name: "",
             phone: "",
-            buttonDisable: false
+            buttonDisable: false,
+            incorrectName: false,
+            incorrectPhone: false
         }
         this.onNameChange = this.onNameChange.bind(this)
         this.onPhoneChange = this.onPhoneChange.bind(this)
@@ -31,46 +33,99 @@ export default class AddPanel extends Component{
 
     onSubmit(e) {
         e.preventDefault()
-        const date = new Date()
-        this.setState({
-            buttonDisable: true
-        })
-        this.fetchData.sendPhoneNumbers(this.state.name, this.state.phone, date, false)
-            .then(response => {
-                const newItem = {
-                    name: this.state.name,
-                    phoneNumber: this.state.phone,
-                    date: date,
-                    id: response.name,
-                    favorite: false
-                }
-                this.props.sendData(newItem)
-            })
-            .then(() => {
+        const regName = /^[а-я]+$/ig
+        const regPhone = /^[0-9\-]+$/g
+
+/*        if (!regName.test(this.state.name)) {
+            console.log("name")
+        }*/
+
+        if (!regName.test(this.state.name) || !regPhone.test(this.state.phone)) {
+
+            if (!regName.test(this.state.name)) {
+                console.log("incorrect name")
                 this.setState({
-                    buttonDisable: false
+                    incorrectName: true
                 })
+            }
+
+            if (!regPhone.test(this.state.phone)) {
+                console.log("incorrect phone")
+                this.setState({
+                    incorrectPhone: true
+                })
+            }
+        } else {
+            const date = new Date()
+            this.setState({
+                buttonDisable: true,
+                incorrectName: false,
+                incorrectPhone: false
             })
 
+            this.fetchData.sendPhoneNumbers(this.state.name, this.state.phone, date, false)
+                .then(response => {
+                    const newItem = {
+                        name: this.state.name,
+                        phoneNumber: this.state.phone,
+                        date: date,
+                        id: response.name,
+                        favorite: false
+                    }
+                    this.props.sendData(newItem)
+                })
+                .then(() => {
+                    this.setState({
+                        buttonDisable: false,
+                        name: "",
+                        phone: ""
+                    })
+                })
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.incorrectName !== this.state.incorrectName && this.state.incorrectName) {
+            this.setState({
+                name: ""
+            })
+        }
+        if (prevState.incorrectPhone !== this.state.incorrectPhone && this.state.incorrectPhone) {
+            this.setState({
+                phone: ""
+            })
+        }
     }
 
     render() {
+        let clsName = "input-field"
+        let namePlaceholder = this.state.incorrectName ? "Только русские буквы" : "Введите имя"
+        let phonePlaceholder = this.state.incorrectPhone ? "Только цифры" : "Введите телефон"
+        let clsPhone = "input-field"
+        if (this.state.incorrectName) {
+            clsName+= " incorrect"
+        }
+        if (this.state.incorrectPhone) {
+            clsPhone+= " incorrect"
+        }
 
         return (
-                <form onSubmit={this.onSubmit}>
+                <form onSubmit={this.onSubmit} className="add-form">
                     <input
-                        className="input-field"
+                        className={clsName}
                         type="text"
-                        placeholder="Имя"
+                        placeholder={namePlaceholder}
                         onChange={this.onNameChange}
-                        minLength={3}/>
+                        minLength={3}
+                        value={this.state.name}/>
                     <input
-                        className="input-field"
+                        className={clsPhone}
                         type="text"
-                        placeholder="Номер"
+                        placeholder={phonePlaceholder}
                         onChange={this.onPhoneChange}
-                        minLength={3}/>
-                    <button type="submit" disabled={this.state.buttonDisable}>
+                        minLength={3}
+                        value={this.state.phone}/>
+                    <button className="btn-add-post" type="submit" disabled={this.state.buttonDisable}>
                         Добавить
                     </button>
                 </form>

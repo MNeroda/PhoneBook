@@ -1,11 +1,9 @@
 .app-list {
-    margin-top: 50px;
+    margin-top: -17px;
 }
 .app-list .list-group-item {
     padding: 20px 35px 10px 35px;
     margin-top: 10px;
-}
-
-.app-list .list-group-item.favorite {
-    background-color: #FEFFF4;
+    border: 1px #CDCED0 solid;
+    border-radius: 5px;
 }

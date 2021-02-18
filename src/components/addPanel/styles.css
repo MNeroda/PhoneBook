@@ -1,3 +1,20 @@
+.add-form {
+    padding: 20px;
+    background-color: white;
+    border: 1px #CDCED0 solid;
+    border-radius: 5px;
+
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .input-field {
-    margin-right: 19px;
+    min-width: 200px;
+}
+
+.input-field.incorrect {
+    border: 2px red solid;
+    border-radius: 3px;
 }

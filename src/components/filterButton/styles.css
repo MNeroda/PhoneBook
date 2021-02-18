@@ -1,0 +1,33 @@
+.btn-filter {
+    border: none;
+    color: #2C2C2C;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.btn-filter:hover {
+    border-radius: 5px;
+    background-color: #CDD5FF;
+    color: #4D61CC;
+    transition: all .3s;
+}
+
+.btn-filter.selected::after {
+    content: "";
+    display: block;
+    background-color: #3B49DF;
+    position: relative;
+    margin: 0 auto;
+    width: 70%;
+    height: 3px;
+    border: 1px #3B49DF solid;
+    border-radius: 10px;
+}
+
+.btn-filter.selected:hover:after {
+    width: 100%;
+    transition: width .2s;
+}

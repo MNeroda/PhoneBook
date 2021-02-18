@@ -110,13 +110,9 @@ export default class ItemsList extends Component {
 
     render() {
         const elements = this.sortByTime(this.filterFavorite(this.searchPhonesNumbers())).map(item => {
-            const {id, favorite} = item
-            let clsName = "list-group-item"
-            if (favorite) {
-                clsName+=" favorite"
-            }
+            const {id} = item
             return (
-                <li key={id} className={clsName}>
+                <li key={id} className="list-group-item">
                     <Item
                         itemData={item}
                         onDelete={() => this.onDelete(id)}

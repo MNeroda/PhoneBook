@@ -8,6 +8,10 @@
     margin-bottom: 10px;
 }
 
+.btn-filter, btn-filter:active, btn-filter:focus {
+    outline: none !important;
+}
+
 .btn-filter:hover {
     border-radius: 5px;
     background-color: #CDD5FF;
@@ -25,6 +29,7 @@
     height: 3px;
     border: 1px #3B49DF solid;
     border-radius: 10px;
+    transition: all .2s;
 }
 
 .btn-filter.selected:hover:after {

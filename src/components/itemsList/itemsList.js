@@ -11,10 +11,14 @@ export default class ItemsList extends Component {
             phoneNumbers: [],
             onToggleFavorite: false,
             sortOlder: true,
-            isLoading: false
+            isLoading: false,
+            currentEdited: []
         }
         this.onDelete = this.onDelete.bind(this)
         this.onFavorite = this.onFavorite.bind(this)
+        this.onEditStart = this.onEditStart.bind(this)
+        this.onEditCancel = this.onEditCancel.bind(this)
+        this.getDataFromAdd = this.getDataFromAdd.bind(this)
     }
 
     fetchData = new FetchData()
@@ -75,12 +79,40 @@ export default class ItemsList extends Component {
         const index = this.state.phoneNumbers.findIndex(elem => elem.id === id)
         const body = this.state.phoneNumbers[index]
         body.favorite = !body.favorite
-        this.fetchData.changeFavorite(id, body)
+        this.fetchData.changeData(id, body)
 
         const changedFavorite = [...this.state.phoneNumbers.slice(0, index), body, ...this.state.phoneNumbers.slice(index+1)]
         this.setState({
             phoneNumbers: changedFavorite
         })
+    }
+
+    onEditStart(id) {
+/*        const index = this.state.phoneNumbers.findIndex(item => item.id === id)*/
+        if (this.state.currentEdited.indexOf(id) < 0) {
+            const newCurrentEdited = this.state.currentEdited
+            newCurrentEdited.push(id)
+            this.setState({
+                currentEdited: newCurrentEdited
+            })
+        }
+    }
+
+    getDataFromAdd(item) {
+        const index = this.state.phoneNumbers.findIndex(elem => elem.id === item.id)
+        const newPhonesNumbers = [...this.state.phoneNumbers.slice(0,index), item, ...this.state.phoneNumbers.slice(index+1)]
+        this.setState({
+            phoneNumbers: newPhonesNumbers
+        })
+    }
+
+    onEditCancel(id) {
+        const index = this.state.currentEdited.findIndex(elem => elem === id)
+        const newCurrentEdited = [...this.state.currentEdited.slice(0, index), ...this.state.currentEdited.slice(index+1)]
+        this.setState({
+            currentEdited: newCurrentEdited
+        })
+
     }
 
     searchPhonesNumbers() {
@@ -111,12 +143,18 @@ export default class ItemsList extends Component {
     render() {
         const elements = this.sortByTime(this.filterFavorite(this.searchPhonesNumbers())).map(item => {
             const {id} = item
+            const editFlag = this.state.currentEdited.indexOf(id) > -1
             return (
                 <li key={id} className="list-group-item">
                     <Item
                         itemData={item}
+                        editFlag={editFlag}
+                        id={id}
+                        sendData={this.getDataFromAdd}
                         onDelete={() => this.onDelete(id)}
-                        onFavorite={() => this.onFavorite(id)}/>
+                        onFavorite={() => this.onFavorite(id)}
+                        onEditStart={() => this.onEditStart(id)}
+                        onEditCancel={() => this.onEditCancel(id)}/>
                 </li>
             )
         })

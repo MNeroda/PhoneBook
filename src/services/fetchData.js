@@ -4,9 +4,6 @@ export default class FetchData {
     }
 
     async getPhoneNumbers() {
-/*        if (!response.ok) {
-            throw new Error(`Ошибка, не получилось загрузить данные, статус: ${response.status}`)
-        }*/
         return fetch(this.url)
             .then(response => response.json())
             .then(response => {
@@ -39,7 +36,7 @@ export default class FetchData {
         })
     }
 
-    changeFavorite(id, body) {
+    changeData(id, body) {
         return fetch(`https://phonebook-fec8f-default-rtdb.firebaseio.com/phoneNumbers/${id}.json`, {
             method: "PUT",
             body: JSON.stringify(body),
@@ -47,6 +44,5 @@ export default class FetchData {
                 "Content-type": "application/json"
             }
         })
-
     }
 }

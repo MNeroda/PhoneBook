@@ -59,8 +59,6 @@ export default class AddPanel extends Component{
         e.preventDefault();
         this.updateValidation();
 
-        console.table(this.state);
-
         if (!this.isValidForm) {
             return;
         }
@@ -73,30 +71,46 @@ export default class AddPanel extends Component{
         })
 
 
-        this.fetchData.sendPhoneNumbers(this.state.name, this.state.phone, date, false)
-            .then(response => {
-                const newItem = {
-                    name: this.state.name,
-                    phoneNumber: this.state.phone,
-                    date: date,
-                    id: response.name,
-                    favorite: false
-                }
-                this.props.sendData(newItem)
-            })
-            .then(() => {
-                this.setState({
-                    buttonDisable: false,
-                    name: "",
-                    phone: ""
+        if (this.props.editFlag) {
+            const newItem = {
+                name: this.state.name,
+                phoneNumber: this.state.phone,
+                date: date,
+                id: this.props.editId,
+                favorite: false
+            }
+            this.fetchData.changeData(this.props.editId, newItem)
+                .then(() => {
+                    this.props.sendData(newItem)
+                    this.props.onEditCancel()
                 })
-            })
+
+        } else {
+            this.fetchData.sendPhoneNumbers(this.state.name, this.state.phone, date, false)
+                .then(response => {
+                    const newItem = {
+                        name: this.state.name,
+                        phoneNumber: this.state.phone,
+                        date: date,
+                        id: response.name,
+                        favorite: false
+                    }
+                    this.props.sendData(newItem)
+                })
+                .then(() => {
+                    this.setState({
+                        buttonDisable: false,
+                        name: "",
+                        phone: ""
+                    })
+                })
+        }
+
+
     }
 
     render() {
         let clsName = "input-field"
-        let namePlaceholder = this.state.incorrectName ? "Только русские буквы" : "Введите имя"
-        let phonePlaceholder = this.state.incorrectPhone ? "Только цифры" : "Введите телефон"
         let clsPhone = "input-field"
         if (this.state.incorrectName) {
             clsName+= " incorrect"
@@ -104,6 +118,52 @@ export default class AddPanel extends Component{
         if (this.state.incorrectPhone) {
             clsPhone+= " incorrect"
         }
+
+        /*      EDIT FORM       */
+
+        if (this.props.editFlag) {
+            let namePlaceholder = this.state.incorrectName ? "Только русские буквы" : this.props.placeholderEditData.name
+            let phonePlaceholder = this.state.incorrectPhone ? "Только цифры" : this.props.placeholderEditData.phoneNumber
+
+            return (
+                <form onSubmit={this.onSubmit} className="edit-form">
+                    <span>
+                        <input
+                            className={clsName}
+                            type="text"
+                            ref={this.nameRef}
+                            placeholder={namePlaceholder}
+                            onChange={this.onNameChange}
+                            minLength={3}
+                            value={this.state.name}/>
+                        <input
+                            className={clsPhone}
+                            type="text"
+                            ref={this.phoneRef}
+                            placeholder={phonePlaceholder}
+                            onChange={this.onPhoneChange}
+                            minLength={3}
+                            value={this.state.phone}/>
+                    </span>
+
+                    <div className="edit-buttons">
+                        <button className="btn-icon btn-check" type="submit" disabled={this.state.buttonDisable}>
+                            <i className="fa fa-check-square"></i>
+                        </button>
+                        <button
+                            type="button"
+                            className="btn-icon btn-cancel"
+                            onClick={this.props.onEditCancel}>
+                            <i className="fa fa-ban"></i>
+                        </button>
+                    </div>
+                </form>
+            )
+        }
+
+        /*      ADD FORM        */
+        let namePlaceholder = this.state.incorrectName ? "Только русские буквы" : "Введите имя"
+        let phonePlaceholder = this.state.incorrectPhone ? "Только цифры" : "Введите телефон"
 
         return (
             <form onSubmit={this.onSubmit} className="add-form">

@@ -68,7 +68,7 @@ export default class App extends Component{
 
 
                 <div className="posts">
-                    <AddPanel sendData={this.getDataFromAdd}/>
+                    <AddPanel sendData={this.getDataFromAdd} editFlag={false}/>
 
 
 

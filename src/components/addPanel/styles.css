@@ -10,11 +10,64 @@
     justify-content: center;
 }
 
+.edit-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .input-field {
+    margin-right: 10px;
     min-width: 200px;
+    height: 30px;
 }
 
 .input-field.incorrect {
     border: 2px red solid;
     border-radius: 3px;
+}
+
+.btn-icon {
+    width: 35px;
+    height: 35px;
+    margin: 0 3px;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    color: #aeaeae;
+    background-color: white;
+}
+
+.edit-buttons {
+    margin: 0;
+    padding: 0;
+}
+
+.btn-icon:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.btn-check:hover {
+    color: green;
+    transition: color .2s;
+}
+
+.btn-cancel:hover {
+    color: red;
+    transition: color .2s;
+}
+
+.btn-add-post {
+    color: white;
+    background-color: #3B49DF;
+    border-radius: 5px;
+    border: none;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+.btn-add-post:hover {
+    background-color: #3540BA;
+    transition: background-color .2s;
 }

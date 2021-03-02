@@ -1,10 +1,22 @@
 import React, {Component} from "react";
 import "./styles.css"
+import AddPanel from "../addPanel";
 
 export default class Item extends Component {
-
     render() {
         const {name, phoneNumber, date, favorite} = this.props.itemData
+
+        if (this.props.editFlag) {
+            return (
+                <AddPanel
+                    sendData={this.props.sendData}
+                    editFlag={true}
+                    onEditCancel={this.props.onEditCancel}
+                    editId={this.props.id}
+                    placeholderEditData={{name, phoneNumber}}/>
+            )
+        }
+
         const objDate = new Date(date)
         const visibleDate = `${objDate.toDateString()}, в ${objDate.getHours()}:${objDate.getMinutes()}`
 
@@ -25,11 +37,15 @@ export default class Item extends Component {
                 </span>
 
                 <div className="d-flex justify-content-center align-items-center">
-                    <button className="btn-star btn-sm"
+                    <button className="btn-edit"
+                        onClick={this.props.onEditStart}>
+                        <i className="fa fa-edit"></i>
+                    </button>
+                    <button className="btn-star"
                         onClick={this.props.onFavorite}>
                         <i className="fa fa-star"></i>
                     </button>
-                    <button className="btn-trash btn-sm"
+                    <button className="btn-trash"
                         onClick={this.props.onDelete}>
                         <i className="fa fa-trash-o"></i>
                     </button>

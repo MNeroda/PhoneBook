@@ -5,7 +5,7 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin-bottom: 10px;
+/*    margin-bottom: 10px;*/
 }
 
 .btn-filter, btn-filter:active, btn-filter:focus {
